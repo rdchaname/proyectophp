@@ -6,10 +6,20 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Personas<a class="btn btn-success float-right" href="{{ route('persona.create')  }}">Nuevo</a>
+                        Personas<a class="btn btn-success float-right" href="{{ route('persona.create') }}">Nuevo</a>
                     </div>
-
+                    @if ($mensaje !== '')
+                        <div class="alert alert-success" role="alert">
+                            {{ $mensaje }}
+                        </div>
+                    @endif
                     <div class="card-body">
+                        <form method="POST" class="form-inline" action="{{ route('persona.buscar') }}">
+                            @csrf
+                            <input type="text" name="texto_busqueda" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2"
+                                placeholder="Buscar">
+                            <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+                        </form>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -28,10 +38,16 @@
                                         <td>{{ $valor->nombre }}</td>
                                         <td>{{ $valor->email }}</td>
                                         <td>
-                                            <button class="btn btn-warning">Editar</button>
+                                            <a href="{{ route('persona.edit', $valor->id) }}"
+                                                class="btn btn-warning">Editar</a>
                                         </td>
                                         <td>
-                                            <button class="btn btn-danger">Eliminar</button>
+                                            <form method="POST" action="{{ route('persona.destroy', $valor->id) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button onclick="return confirm('¿Está seguro de eliminar el registro?')"
+                                                    type="submit" class="btn btn-danger">Eliminar</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

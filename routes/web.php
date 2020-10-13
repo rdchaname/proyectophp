@@ -24,6 +24,7 @@ Auth::routes(['verify' => true]);
 Route::middleware('verified')->group(function () {
     Route::get('/home', 'HomeController@index')->name('inicio');
 
+    Route::post('/persona/buscar', 'PersonaController@buscar')->name('persona.buscar');
     Route::resource('persona', 'PersonaController');
     
     // Route::get('/admin', 'HomeController@admin')->name('admin');
